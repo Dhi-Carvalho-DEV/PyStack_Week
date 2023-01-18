@@ -32,20 +32,24 @@
               {% endfor %} {% endif %}
               <h3 class="font-vinho">Quero divulgar</h3>
               <hr />
-              <form action="" method="">
+              <form action="{% url 'listar_pets' %}" method="GET">
                 <div class="row">
                   <div class="col-md-6">
                     <input
                       type="text"
                       placeholder="Cidade..."
-                      value=""
+                      value="{% if cidade %}{{cidade}}{% endif %}"
                       name="cidade"
                       class="form-control"
                     />
                   </div>
 
                   <div class="col-md-4">
-                    <select class="form-select" name="raca"></select>
+                    <select class="form-select" name="raca">
+                      {% for raca in racas %}
+                      <option {% if raca_filter.id == raca.id %} selected {% endif %} value="{{raca.id}}">{{raca}}</option>
+                      {% endfor%}
+                    </select>
                   </div>
                   <div class="col-md-2">
                     <input
@@ -68,7 +72,7 @@
                 {% for pet in pets%}
                 <tr class="tabela-linha">
                   <td width="20%">
-                    <a href=""><img width="40%" src="{{pet.foto.url}}" /></a>
+                    <a href="{% url 'ver_pet' pet.id %}"><img width="40%" src="{{pet.foto.url}}" /></a>
                   </td>
                   <td>{{pet.nome}}</td>
                   <td>{{pet.raca}}</td>
